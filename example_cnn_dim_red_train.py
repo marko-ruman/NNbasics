@@ -1,12 +1,12 @@
 import torch
 import torchvision
 import torchvision.transforms as transforms
-import torch.nn as nn
 from example_cnn_dim_red_model import Encoder, Decoder
-import torch.optim as optim
 import matplotlib.pyplot as plt
 import numpy as np
 
+
+# Plotting originals and reconstructed examples
 def plot_ae_outputs(encoder, decoder, n=10):
     plt.figure(figsize=(16, 4.5))
     targets = test_dataset.targets.numpy()
@@ -86,9 +86,7 @@ def train_epoch(encoder, decoder, device, dataloader, loss_fn, optimizer):
     return np.mean(train_loss)
 
 transform = transforms.Compose(
-    [transforms.ToTensor(),
-     # transforms.Normalize((0.5), (0.5))
-     ])
+    [transforms.ToTensor()])
 
 batch_size = 256
 
@@ -107,12 +105,14 @@ test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size,
 loss_fn = torch.nn.MSELoss()
 
 
-### Initialize the two networks
-d = 4
+### Dimension of the latent space
+latent_dimension = 4
 
-#model = Autoencoder(encoded_space_dim=encoded_space_dim)
-encoder = Encoder(encoded_space_dim=d, fc2_input_dim=128)
-decoder = Decoder(encoded_space_dim=d, fc2_input_dim=128)
+### Model definition
+encoder = Encoder(encoded_space_dim=latent_dimension)
+decoder = Decoder(encoded_space_dim=latent_dimension)
+
+### parameters ot optimize
 params_to_optimize = [
     {'params': encoder.parameters()},
     {'params': decoder.parameters()}

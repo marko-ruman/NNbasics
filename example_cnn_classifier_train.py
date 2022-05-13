@@ -13,16 +13,21 @@ batch_size = 4
 
 trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
                                         download=True, transform=transform)
+
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size,
                                           shuffle=True)
 
 
 model = Model()
 
+# check if cuda is available, if not => device is cpui
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+
+# transfer model to cuda (if available)
 model.to(device)
 
 criterion = nn.CrossEntropyLoss()
+
 optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 
 

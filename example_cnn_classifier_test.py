@@ -42,6 +42,8 @@ print('GroundTruth: ', ' '.join(f'{classes[labels[j]]:5s}' for j in range(4)))
 
 
 model = Model()
+
+#load state_dict from file
 model.load_state_dict(torch.load(PATH))
 
 outputs = model(images)
